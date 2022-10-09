@@ -44,7 +44,7 @@ while True: # инициализация сценария входа или ре
                 cur.execute(state)
                 accounts = cur.fetchall()
                 pprint(accounts)
-                sleep(3)
+                sleep(30)
                 break
             else: # error_catcher
                 print("Я вас не понимаю, попробуйте ввести ключ снова")
@@ -57,7 +57,12 @@ while True: # инициализация сценария входа или ре
             if check_login == True: # error_catcher
                 print("Пожалуйста, используйте латинскую раскладку клавиатуры!")
             else:
-                break
+                info = cur.execute(f"SELECT login from users WHERE login='{new_login}';")
+                if info.fetchone() is None:
+                    break
+                else:
+                    print("Такой пользователь уже существует!")
+                        #Делаем когда есть человек в бд
         while True: # создание пароля
             new_password = input("Введите желаемый пароль: ")
             check_password = bool(alphabet.intersection(set(new_password)))
